@@ -40,7 +40,6 @@ app.post("/addUser", (req, res) => {
           res.send({ Status_Cd: 1, email, password });
         })
         .catch((err) => {
-          console.log("Error is : ", err);
           res
             .status(500)
             .send({ Status_Cd: 0, message: "Error inserting data" });
@@ -51,28 +50,15 @@ app.post("/addUser", (req, res) => {
 
 // Add data into table API
 app.post("/descriptionData", (req, res) => {
-  // console.log(reqData);
-  // const initialData = req.body?.["initialData"];
   const { workDescription } = req.body["workDescription"];
   const groceryDescription = req.body["groceryDescription"];
   const officeDescription = req.body["officeDescription"];
-  // const groceryDescription = req.body?.["groceryDescription"];
-  // const officeDescription = req.body?.["officeDescription"];
-  // const {
-  //   initialData,
-  //   workDescription,
-  //   groceryDescription,
-  //   officeDescription,
-  // } = req.body?.["currentId"];
   let insertDataIntoDescTable;
-  // if (reqData.length === 0) {
-  //   res.send({ Status_Cd: 0, Error: "Add some tasks" });
-  // }
   if (req.body?.["workDescription"]) {
     insertDataIntoDescTable = `INSERT INTO all_data(user_id,description,type,status) VALUES($1,$2,$3,$4)`;
     pool
       .query(insertDataIntoDescTable, [
-        req.body?.["id"],
+        req.body?.["dbId"],
         req.body?.["workDescription"],
         "WK",
         "Pending",
@@ -81,14 +67,13 @@ app.post("/descriptionData", (req, res) => {
         res.send({ Status_Cd: 1 });
       })
       .catch((err) => {
-        console.log("Error is : ", err);
         res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
       });
   } else if (req.body?.["groceryDescription"]) {
     insertDataIntoDescTable = `INSERT INTO all_data(user_id,description,type,status) VALUES($1,$2,$3,$4)`;
     pool
       .query(insertDataIntoDescTable, [
-        req.body?.["id"],
+        req.body["dbId"],
         req.body?.["groceryDescription"],
         "GY",
         "Pending",
@@ -97,14 +82,13 @@ app.post("/descriptionData", (req, res) => {
         res.send({ Status_Cd: 1 });
       })
       .catch((err) => {
-        console.log("Error is : ", err);
         res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
       });
   } else if (req.body?.["officeDescription"]) {
     insertDataIntoDescTable = `INSERT INTO all_data(user_id,description,type,status) VALUES($1,$2,$3,$4)`;
     pool
       .query(insertDataIntoDescTable, [
-        req.body?.["id"],
+        req.body["dbId"],
         req.body?.["officeDescription"],
         "OFC",
         "Pending",
@@ -113,61 +97,44 @@ app.post("/descriptionData", (req, res) => {
         res.send({ Status_Cd: 1 });
       })
       .catch((err) => {
-        console.log("Error is : ", err);
         res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
       });
   }
-
-  // if (workDescription) {
-  //   pool
-  //     .query(
-  //       `INSERT INTO all_data(description,type,status) VALUES(${workDescription},'WK','Pending')`
-  //     )
-  //     .then(() => {
-  //       res.send({ Status_Cd: 1 });
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error is : ", err);
-  //       res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
-  //     });
-  // } else if (groceryDescription) {
-  //   pool
-  //     .query(
-  //       `INSERT INTO all_data(description,type,status) VALUES(${groceryDescription},'GY','Pending')`
-  //     )
-  //     .then(() => {
-  //       res.send({ Status_Cd: 1 });
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error is : ", err);
-  //       res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
-  //     });
-  // } else {
-  //   pool
-  //     .query(
-  //       `INSERT INTO all_data(description,type,status) VALUES(${officeDescription},'OFC','Pending')`
-  //     )
-  //     .then(() => {
-  //       res.send({ Status_Cd: 1 });
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error is : ", err);
-  //       res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
-  //     });
-  // }
 });
 
 app.get("/getAllData", (req, res) => {
   const getId = req.query["id"];
-  console.log(getId);
   pool
     .query(`SELECT * FROM all_data WHERE user_id=$1`, [getId])
     .then((result) => {
-      console.log(result);
       res.send({ Status_Cd: 1, result });
     })
     .catch((err) => {
-      console.log("Error is :", err);
+      console.log("Error is on getAllData API :", err);
+    });
+});
+
+app.put("/updateData", (req, res) => {
+  const getText = req.query["description"];
+  const getDbid = req.query["dbId"];
+
+  pool
+    .query(
+      `UPDATE all_data SET status = $1 WHERE description = $2 AND user_id=$3`,
+      ["Completed", getText, getDbid] // Use parameterized values here
+    )
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.send({ Status_Cd: 1, message: "Data updated successfully" });
+      } else {
+        res
+          .status(404)
+          .send({ Status_Cd: 0, message: "No matching record found" });
+      }
+    })
+    .catch((err) => {
+      console.error("Updation error: ", err);
+      res.status(500).send({ Status_Cd: 0, message: "Internal server error" });
     });
 });
 
