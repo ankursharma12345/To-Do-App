@@ -48,7 +48,7 @@ app.post("/addUser", (req, res) => {
   });
 });
 
-// Add data into table API
+// Add data into table API-
 app.post("/descriptionData", (req, res) => {
   const { workDescription } = req.body["workDescription"];
   const groceryDescription = req.body["groceryDescription"];
@@ -102,6 +102,7 @@ app.post("/descriptionData", (req, res) => {
   }
 });
 
+// Get all data from table
 app.get("/getAllData", (req, res) => {
   const getId = req.query["id"];
   pool
@@ -114,6 +115,7 @@ app.get("/getAllData", (req, res) => {
     });
 });
 
+// Update the table data
 app.put("/updateData", (req, res) => {
   const getText = req.query["description"];
   const getDbid = req.query["dbId"];
