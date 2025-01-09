@@ -1,0 +1,32 @@
+.mainContainer {
+  height: 100vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  background-color: white;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.details {
+  margin-left: 0;
+  padding: 1.5rem;
+}
+
+button {
+  text-transform: none;
+}
