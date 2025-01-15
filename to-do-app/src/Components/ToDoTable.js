@@ -21,6 +21,11 @@ const ToDoTable = (props) => {
     rowsData: [],
   });
 
+  const BASE_URL =
+    process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_API_URL
+      : "http://localhost:4000";
+
   // useEffect(() => {
   //   if (props?.["dbId"]) {
   //     const getDataFromDb = async () => {
@@ -44,7 +49,7 @@ const ToDoTable = (props) => {
     if (props?.["dbId"]) {
       const getDataFromDb = async () => {
         const getAllData = await axios.get(
-          `http://localhost:4000/getAllData?id=${props?.["dbId"]}`
+          `${BASE_URL}/getAllData?id=${props?.["dbId"]}`
         );
         const getData = getAllData.data.result.rows.filter(
           ({ status }) => status === "Pending"
@@ -108,14 +113,14 @@ const ToDoTable = (props) => {
 
   const updateData = async (getText) => {
     const response = await axios.put(
-      `http://localhost:4000/updateData?dbId=${props.dbId}&description=${getText}`
+      `${BASE_URL}/updateData?dbId=${props.dbId}&description=${getText}`
     );
     if (response.data.Status_Cd === 1) {
       dispatch(showSnackbar(true, "success", "Data updated Successfully"));
     } else dispatch(showSnackbar(true, "error", "Data not updated"));
 
     const getAllData = await axios.get(
-      `http://localhost:4000/getAllData?id=${props?.["dbId"]}`
+      `${BASE_URL}/getAllData?id=${props?.["dbId"]}`
     );
     const getData = getAllData.data.result.rows.filter(
       ({ status }) => status === "Pending"

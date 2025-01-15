@@ -20,9 +20,15 @@ const Login = () => {
   const goToSignup = () => {
     navigate("/To-Do-App", { replace: true });
   };
+
+  const BASE_URL =
+    process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_API_URL
+      : "http://localhost:4000";
+
   const gotToMainPage = async () => {
     const response = await axios.get(
-      `http://localhost:4000/getData?email=${stateData?.email}&password=${stateData?.password}`
+      `${BASE_URL}/getData?email=${stateData?.email}&password=${stateData?.password}`
     );
     if (response.data.rows.length > 0) {
       setTimeout(() => {

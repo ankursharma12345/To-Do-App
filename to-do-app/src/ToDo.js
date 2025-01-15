@@ -63,10 +63,15 @@ const ToDo = (props) => {
     }
   };
 
+  const BASE_URL =
+    process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_API_URL
+      : "http://localhost:4000";
+
   const sendDataToDb = useCallback(async () => {
     if (descriptionData?.["workDescription"].length > 0) {
       const response = await axios.post(
-        "http://localhost:4000/descriptionData",
+        `${BASE_URL}/descriptionData`,
         descriptionData
       );
       if (response.data.Status_Cd === 1) {
@@ -80,7 +85,7 @@ const ToDo = (props) => {
       dispatch(showSnackbar(true, "error", "Data not saved"));
     } else if (descriptionData?.["groceryDescription"].length > 0) {
       const response = await axios.post(
-        "http://localhost:4000/descriptionData",
+        `${BASE_URL}/descriptionData`,
         descriptionData
       );
       if (response.data.Status_Cd === 1) {
@@ -94,7 +99,7 @@ const ToDo = (props) => {
       dispatch(showSnackbar(true, "error", "Data not saved"));
     } else {
       const response = await axios.post(
-        "http://localhost:4000/descriptionData",
+        `${BASE_URL}/descriptionData`,
         descriptionData
       );
       if (response.data.Status_Cd === 1) {
@@ -116,7 +121,7 @@ const ToDo = (props) => {
   useEffect(() => {
     const getDataFromDb = async () => {
       const getAllData = await axios.get(
-        `http://localhost:4000/getAllData?id=${descriptionData?.["dbId"]}`
+        `${BASE_URL}/getAllData?id=${descriptionData?.["dbId"]}`
       );
 
       const getData = getAllData.data.result.rows.filter(
@@ -147,7 +152,7 @@ const ToDo = (props) => {
   useEffect(() => {
     const getDataFromDb = async () => {
       const getAllData = await axios.get(
-        `http://localhost:4000/getAllData?id=${descriptionData?.["dbId"]}`
+        `${BASE_URL}/getAllData?id=${descriptionData?.["dbId"]}`
       );
       const getData = getAllData.data.result.rows.filter(
         ({ status }) => status === "Pending"

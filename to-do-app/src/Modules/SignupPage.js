@@ -18,12 +18,15 @@ const SignupPage = () => {
       return { ...prev };
     });
   };
+
+  const BASE_URL =
+    process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_API_URL
+      : "http://localhost:4000";
+
   const dispatch = useDispatch();
   const sendDataIntoDb = async () => {
-    const response = await axios.post(
-      `http://localhost:4000/addUser`,
-      stateData
-    );
+    const response = await axios.post(`${BASE_URL}/addUser`, stateData);
     if (response.data.Status_Cd === 0) {
       dispatch(showSnackbar(true, "error", "Email already exists"));
       return;
