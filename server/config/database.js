@@ -1,12 +1,20 @@
 const { Pool } = require("pg");
 
 // Connection to DB
+// const pool = new Pool({
+//   user: "postgres",
+//   password: "12345",
+//   host: "localhost",
+//   port: 5432,
+//   database: "to_do_app",
+// });
+
 const pool = new Pool({
-  user: "postgres",
-  password: "12345",
-  host: "localhost",
+  user: to_do_app_onrc_user,
+  password: UFMefyfQK6oT0YtmhBI9tY2nJk6CkjaK,
+  host: dpg - cu3n8ljtq21c73aop3u0 - a,
   port: 5432,
-  database: "to_do_app",
+  database: to_do_app_onrc,
 });
 
 // pool

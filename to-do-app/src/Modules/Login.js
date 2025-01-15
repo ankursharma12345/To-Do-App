@@ -31,6 +31,7 @@ const Login = () => {
     const response = await axios.get(
       `${BASE_URL}/getData?email=${stateData?.email}&password=${stateData?.password}`
     );
+    console.log("API URL:", response);
     if (response.data.rows.length > 0) {
       setTimeout(() => {
         dispatch(showSnackbar(true, "success", "Login Successfully"));

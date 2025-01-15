@@ -6,13 +6,32 @@ const app = express();
 
 // Required Middlewares
 app.use(express.json());
-app.use(cors());
-app.use(cors({ origin: "https://ankursharma12345.github.io/To-Do-App" }));
+// app.use(cors());
+// app.use(cors({ origin: "https://ankursharma12345.github.io/To-Do-App" }));
+
+const allowedOrigins = [
+  "http://localhost:3000", // Local development
+  "https://ankursharma12345.github.io/To-Do-App", // Production (GitHub Pages)
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 // Login API
 app.get("/getData", (req, res) => {
   const getUserEmailFromDatabase = req.query?.["email"];
   const getUserPasswordFromDatabase = req.query?.["password"];
+  console.log("Email Data : ", getUserEmailFromDatabase);
+  console.log("Password Data : ", getUserPasswordFromDatabase);
   pool
     .query("select * from login_data where email=$1 and password=$2", [
       getUserEmailFromDatabase,
