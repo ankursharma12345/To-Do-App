@@ -7,6 +7,7 @@ const app = express();
 // Required Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cors({origin:"https://ankursharma12345.github.io"}))
 
 // Login API
 app.get("/getData", (req, res) => {
