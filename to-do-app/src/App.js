@@ -9,7 +9,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<SignupPage />} />
+          <Route path="/To-Do-App" element={<SignupPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/todo" element={<MainLayout />} />
         </Routes>
