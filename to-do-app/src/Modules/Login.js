@@ -18,7 +18,7 @@ const Login = () => {
   };
   const navigate = useNavigate();
   const goToSignup = () => {
-    navigate("/", { replace: true });
+    navigate("/To-Do-App", { replace: true });
   };
   const gotToMainPage = async () => {
     const response = await axios.get(
