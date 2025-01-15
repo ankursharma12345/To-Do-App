@@ -11,7 +11,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:3000", // Local development
-  "https://ankursharma12345.github.io/To-Do-App", // Production (GitHub Pages)
+  "https://ankursharma12345.github.io", // Production (GitHub Pages)
 ];
 
 app.use(
