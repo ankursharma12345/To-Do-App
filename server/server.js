@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./config/database");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
@@ -11,19 +11,37 @@ app.use(express.json());
 // app.use(cors({ origin: "https://ankursharma12345.github.io/To-Do-App" }));
 
 const allowedOrigins = [
-  "http://localhost:3000", // Local development
-  "https://ankursharma12345.github.io", // Production (GitHub Pages)
+  // "http://localhost:3000", // Local development
+  // "https://ankursharma12345.github.io", // Production (GitHub Pages)
+  "http://localhost:3000",
+  "https://ankursharma12345.github.io",
+  "https://ankursharma12345.github.io/To-Do-App", 
 ];
+
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//   })
+// );
 
 app.use(
   cors({
     origin: function (origin, callback) {
+      // Allow if no origin (e.g. mobile app, curl) or in the allowed list
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("Blocked by CORS: ", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true,
   })
 );
 
