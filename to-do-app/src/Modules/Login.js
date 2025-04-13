@@ -1,11 +1,11 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React, { Fragment, useState } from "react";
-import "../styles/Signup.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { showSnackbar } from "../store/Reducer/Snackbar";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import api from "../api";
+import { showSnackbar } from "../store/Reducer/Snackbar";
+import "../styles/Signup.css";
 
 const Login = () => {
   const [stateData, setStateData] = useState({});
@@ -21,17 +21,23 @@ const Login = () => {
     navigate("/To-Do-App", { replace: true });
   };
 
-  console.log("BASE_URL:", process.env.REACT_APP_API_URL);
-  const BASE_URL =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_URL
-      : "http://localhost:4000";
+  // console.log("BASE_URL:", process.env.REACT_APP_API_URL);
+  // const BASE_URL =
+  //   process.env.NODE_ENV === "production"
+  //     ? process.env.REACT_APP_API_URL
+  //     : "http://localhost:4000";
 
   const gotToMainPage = async () => {
-    const response = await axios.get(
-      `${BASE_URL}/getData?email=${stateData?.email}&password=${stateData?.password}`
+    debugger;
+    const response = await api.get(
+      // `/getData?email=${stateData?.email}&password=${stateData?.password}`
+      "https://to-do-app-production-2303.up.railway.app/getData",
+      {
+        params: { email: stateData.email, password: stateData.password },
+        withCredentials: false, // This line may be important!
+      }
     );
-    console.log("API URL:", response);
+    // console.log("API URL:", response);
     if (response.data.rows.length > 0) {
       setTimeout(() => {
         dispatch(showSnackbar(true, "success", "Login Successfully"));

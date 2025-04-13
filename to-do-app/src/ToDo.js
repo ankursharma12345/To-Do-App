@@ -1,12 +1,12 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+import api from "./api";
+import ToDoTable from "./Components/ToDoTable";
 import { showSnackbar } from "./store/Reducer/Snackbar";
 import "./styles/ToDo.css";
-import ToDoTable from "./Components/ToDoTable";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const ToDo = (props) => {
   const [descriptionData, setDescriptionData] = useState({
@@ -63,17 +63,14 @@ const ToDo = (props) => {
     }
   };
 
-  const BASE_URL =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_URL
-      : "http://localhost:4000";
+  // const BASE_URL =
+  //   process.env.NODE_ENV === "production"
+  //     ? process.env.REACT_APP_API_URL
+  //     : "http://localhost:4000";
 
   const sendDataToDb = useCallback(async () => {
     if (descriptionData?.["workDescription"].length > 0) {
-      const response = await axios.post(
-        `${BASE_URL}/descriptionData`,
-        descriptionData
-      );
+      const response = await api.post(`/descriptionData`, descriptionData);
       if (response.data.Status_Cd === 1) {
         setDescriptionData((prev) => {
           prev["workDescription"] = "";
@@ -84,10 +81,7 @@ const ToDo = (props) => {
       }
       dispatch(showSnackbar(true, "error", "Data not saved"));
     } else if (descriptionData?.["groceryDescription"].length > 0) {
-      const response = await axios.post(
-        `${BASE_URL}/descriptionData`,
-        descriptionData
-      );
+      const response = await api.post(`/descriptionData`, descriptionData);
       if (response.data.Status_Cd === 1) {
         setDescriptionData((prev) => {
           prev["groceryDescription"] = "";
@@ -98,10 +92,7 @@ const ToDo = (props) => {
       }
       dispatch(showSnackbar(true, "error", "Data not saved"));
     } else {
-      const response = await axios.post(
-        `${BASE_URL}/descriptionData`,
-        descriptionData
-      );
+      const response = await api.post(`/descriptionData`, descriptionData);
       if (response.data.Status_Cd === 1) {
         setDescriptionData((prev) => {
           prev["officeDescription"] = "";
@@ -120,8 +111,8 @@ const ToDo = (props) => {
 
   useEffect(() => {
     const getDataFromDb = async () => {
-      const getAllData = await axios.get(
-        `${BASE_URL}/getAllData?id=${descriptionData?.["dbId"]}`
+      const getAllData = await api.get(
+        `/getAllData?id=${descriptionData?.["dbId"]}`
       );
 
       const getData = getAllData.data.result.rows.filter(
@@ -151,8 +142,8 @@ const ToDo = (props) => {
 
   useEffect(() => {
     const getDataFromDb = async () => {
-      const getAllData = await axios.get(
-        `${BASE_URL}/getAllData?id=${descriptionData?.["dbId"]}`
+      const getAllData = await api.get(
+        `/getAllData?id=${descriptionData?.["dbId"]}`
       );
       const getData = getAllData.data.result.rows.filter(
         ({ status }) => status === "Pending"

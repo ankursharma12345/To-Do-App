@@ -1,13 +1,13 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 import { showSnackbar } from "../store/Reducer/Snackbar";
 import "../styles/Signup.css";
 import ValidationSchema from "../utils/ValidationSchema";
-import axios from "axios";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const SignupPage = () => {
   const [stateData, setStateData] = useState({});
@@ -19,14 +19,14 @@ const SignupPage = () => {
     });
   };
 
-  const BASE_URL =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_URL
-      : "http://localhost:4000";
+  // const BASE_URL =
+  //   process.env.NODE_ENV === "production"
+  //     ? process.env.REACT_APP_API_URL
+  //     : "http://localhost:4000";
 
   const dispatch = useDispatch();
   const sendDataIntoDb = async () => {
-    const response = await axios.post(`${BASE_URL}/addUser`, stateData);
+    const response = await api.post(`/addUser`, stateData);
     if (response.data.Status_Cd === 0) {
       dispatch(showSnackbar(true, "error", "Email already exists"));
       return;

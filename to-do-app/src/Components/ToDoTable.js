@@ -8,12 +8,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import useSound from "use-sound";
+import api from "../api";
 import { showSnackbar } from "../store/Reducer/Snackbar";
 import "../styles/ToDoTable.css";
-import useSound from "use-sound";
 
 const ToDoTable = (props) => {
   const [tableData, setTableData] = useState({
@@ -21,10 +21,10 @@ const ToDoTable = (props) => {
     rowsData: [],
   });
 
-  const BASE_URL =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_URL
-      : "http://localhost:4000";
+  // const BASE_URL =
+  //   process.env.NODE_ENV === "production"
+  //     ? process.env.REACT_APP_API_URL
+  //     : "http://localhost:4000";
 
   // useEffect(() => {
   //   if (props?.["dbId"]) {
@@ -48,9 +48,7 @@ const ToDoTable = (props) => {
   useEffect(() => {
     if (props?.["dbId"]) {
       const getDataFromDb = async () => {
-        const getAllData = await axios.get(
-          `${BASE_URL}/getAllData?id=${props?.["dbId"]}`
-        );
+        const getAllData = await api.get(`/getAllData?id=${props?.["dbId"]}`);
         const getData = getAllData.data.result.rows.filter(
           ({ status }) => status === "Pending"
         );
@@ -112,16 +110,14 @@ const ToDoTable = (props) => {
   const dispatch = useDispatch();
 
   const updateData = async (getText) => {
-    const response = await axios.put(
-      `${BASE_URL}/updateData?dbId=${props.dbId}&description=${getText}`
+    const response = await api.put(
+      `/updateData?dbId=${props.dbId}&description=${getText}`
     );
     if (response.data.Status_Cd === 1) {
       dispatch(showSnackbar(true, "success", "Data updated Successfully"));
     } else dispatch(showSnackbar(true, "error", "Data not updated"));
 
-    const getAllData = await axios.get(
-      `${BASE_URL}/getAllData?id=${props?.["dbId"]}`
-    );
+    const getAllData = await api.get(`/getAllData?id=${props?.["dbId"]}`);
     const getData = getAllData.data.result.rows.filter(
       ({ status }) => status === "Pending"
     );
