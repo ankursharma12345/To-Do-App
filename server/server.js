@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./config/database");
+const PORT = process.env.PORT;
 
 const app = express();
 
@@ -158,7 +159,8 @@ app.put("/updateData", (req, res) => {
     });
 });
 
-const PORT = process.env.PORT || 4000;
+// const PORT = process.env.PORT || 4000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
