@@ -53,7 +53,7 @@ app.get("/getData", (req, res) => {
   console.log("Email Data : ", getUserEmailFromDatabase);
   console.log("Password Data : ", getUserPasswordFromDatabase);
   pool
-    .query("select * from login_data where email=$1 and password=$2", [
+    .query("select * from login where email=$1 and password=$2", [
       getUserEmailFromDatabase,
       getUserPasswordFromDatabase,
     ])
