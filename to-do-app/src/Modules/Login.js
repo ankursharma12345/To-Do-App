@@ -30,10 +30,10 @@ const Login = () => {
   const gotToMainPage = async () => {
     debugger;
     const response = await api.get(
-      `/getData?email=${stateData?.email}&password=${stateData?.password}`,
-      // "https://to-do-app-production-2303.up.railway.app/getData",
+      // `https://to-do-app-production-2303.up.railway.app/getData?email=${stateData?.email}&password=${stateData?.password}`,
+      "https://to-do-app-production-2303.up.railway.app/getData",
       {
-        // params: { email: stateData.email, password: stateData.password },
+        params: { email: stateData.email, password: stateData.password },
         withCredentials: false, // This line may be important!
       }
     );
