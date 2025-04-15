@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./config/database");
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use(express.json());
 const allowedOrigins = [
   // "http://localhost:3000", // Local development
   // "https://ankursharma12345.github.io", // Production (GitHub Pages)
+  "http://localhost:3000/",
   "http://localhost:3000/To-Do-App",
   "https://ankursharma12345.github.io",
   "https://ankursharma12345.github.io/To-Do-App",
@@ -44,6 +45,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(cors());
 
 // Login API
 app.get("/getData", (req, res) => {
