@@ -13,10 +13,8 @@ app.use(express.json());
 const allowedOrigins = [
   // "http://localhost:3000", // Local development
   // "https://ankursharma12345.github.io", // Production (GitHub Pages)
-  "http://localhost:3000/",
-  "http://localhost:3000/To-Do-App",
+  "http://localhost:3000",
   "https://ankursharma12345.github.io",
-  "https://ankursharma12345.github.io/To-Do-App",
 ];
 
 // app.use(
@@ -46,7 +44,7 @@ app.use(
   })
 );
 
-app.use(cors());
+// app.use(cors());
 
 // Login API
 app.get("/getData", (req, res) => {
