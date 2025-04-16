@@ -69,7 +69,7 @@ app.get("/getData", (req, res) => {
 app.post("/addUser", (req, res) => {
   const email = req.body["email"];
   const password = req.body["password"];
-  const insertDataIntoTbl = `INSERT INTO login_data(Email,Password) values($1,$2)`;
+  const insertDataIntoTbl = `INSERT INTO login_data(email,password) values($1,$2)`;
   const checkUserExistsOrNot = `SELECT email FROM login_data WHERE email=$1`;
 
   pool.query(checkUserExistsOrNot, [email]).then((response) => {
