@@ -34,6 +34,8 @@ const Pool = require("pg").Pool;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  // port : 5432,
+
   ssl: {
     rejectUnauthorized: false,
   },

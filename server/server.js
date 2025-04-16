@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./config/database");
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
@@ -50,10 +51,11 @@ app.use(
 app.get("/getData", (req, res) => {
   const getUserEmailFromDatabase = req.query?.["email"];
   const getUserPasswordFromDatabase = req.query?.["password"];
+  console.log("Request Data is : ", req);
   console.log("Email Data : ", getUserEmailFromDatabase);
   console.log("Password Data : ", getUserPasswordFromDatabase);
   pool
-    .query("select * from login where email=$1 and password=$2", [
+    .query("select * from login_data where email=$1 and password=$2", [
       getUserEmailFromDatabase,
       getUserPasswordFromDatabase,
     ])
