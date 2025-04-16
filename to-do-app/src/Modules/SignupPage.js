@@ -26,7 +26,11 @@ const SignupPage = () => {
 
   const dispatch = useDispatch();
   const sendDataIntoDb = async () => {
-    const response = await api.post(`/addUser`, stateData);
+    debugger;
+    const response = await api.post(
+      `https://to-do-app-production-faef.up.railway.app/addUser`,
+      stateData
+    );
     if (response.data.Status_Cd === 0) {
       dispatch(showSnackbar(true, "error", "Email already exists"));
       return;
