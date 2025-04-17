@@ -65,11 +65,28 @@ app.get("/getData", (req, res) => {
     .catch((err) => console.log("Error is :", err));
 });
 
+app.post("/addUser", async (req, res) => {
+  try {
+    const email = req.body["email"];
+    const password = req.body["password"];
+    const insertDataIntoTbl = `INSERT INTO login_data(Email,Password) values($1,$2)`;
+    const checkUserExistsOrNot = `SELECT email FROM login_data WHERE email=$1`;
+    const isAlreadyExist = await pool.query(checkUserExistsOrNot, [email]);
+    if (isAlreadyExist.rows.length > 0)
+      res.send({ Status_Cd: 0, Error: "Duplicate Data Found" });
+    await pool.query(insertDataIntoTbl, [email, password]);
+    res.send({ Status_Cd: 1, email, password });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
+  }
+});
+
 // SignUp API
-app.post("/addUser", (req, res) => {
+app.post("/addUser1", (req, res) => {
   const email = req.body["email"];
   const password = req.body["password"];
-  const insertDataIntoTbl = `INSERT INTO login_data(email,password) values($1,$2)`;
+  const insertDataIntoTbl = `INSERT INTO login_data(Email,Password) values($1,$2)`;
   const checkUserExistsOrNot = `SELECT email FROM login_data WHERE email=$1`;
 
   pool.query(checkUserExistsOrNot, [email]).then((response) => {
