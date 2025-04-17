@@ -70,7 +70,10 @@ const ToDo = (props) => {
 
   const sendDataToDb = useCallback(async () => {
     if (descriptionData?.["workDescription"].length > 0) {
-      const response = await api.post(`/descriptionData`, descriptionData);
+      const response = await api.post(
+        `https://to-do-app-production-faef.up.railway.app/descriptionData`,
+        descriptionData
+      );
       if (response.data.Status_Cd === 1) {
         setDescriptionData((prev) => {
           prev["workDescription"] = "";
@@ -81,7 +84,10 @@ const ToDo = (props) => {
       }
       dispatch(showSnackbar(true, "error", "Data not saved"));
     } else if (descriptionData?.["groceryDescription"].length > 0) {
-      const response = await api.post(`/descriptionData`, descriptionData);
+      const response = await api.post(
+        `https://to-do-app-production-faef.up.railway.app/descriptionData`,
+        descriptionData
+      );
       if (response.data.Status_Cd === 1) {
         setDescriptionData((prev) => {
           prev["groceryDescription"] = "";
@@ -92,7 +98,10 @@ const ToDo = (props) => {
       }
       dispatch(showSnackbar(true, "error", "Data not saved"));
     } else {
-      const response = await api.post(`/descriptionData`, descriptionData);
+      const response = await api.post(
+        `https://to-do-app-production-faef.up.railway.app/descriptionData`,
+        descriptionData
+      );
       if (response.data.Status_Cd === 1) {
         setDescriptionData((prev) => {
           prev["officeDescription"] = "";
@@ -112,7 +121,7 @@ const ToDo = (props) => {
   useEffect(() => {
     const getDataFromDb = async () => {
       const getAllData = await api.get(
-        `/getAllData?id=${descriptionData?.["dbId"]}`
+        `https://to-do-app-production-faef.up.railway.app/getAllData?id=${descriptionData?.["dbId"]}`
       );
 
       const getData = getAllData.data.result.rows.filter(
@@ -143,7 +152,7 @@ const ToDo = (props) => {
   useEffect(() => {
     const getDataFromDb = async () => {
       const getAllData = await api.get(
-        `/getAllData?id=${descriptionData?.["dbId"]}`
+        `https://to-do-app-production-faef.up.railway.app/getAllData?id=${descriptionData?.["dbId"]}`
       );
       const getData = getAllData.data.result.rows.filter(
         ({ status }) => status === "Pending"

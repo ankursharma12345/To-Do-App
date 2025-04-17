@@ -48,7 +48,9 @@ const ToDoTable = (props) => {
   useEffect(() => {
     if (props?.["dbId"]) {
       const getDataFromDb = async () => {
-        const getAllData = await api.get(`/getAllData?id=${props?.["dbId"]}`);
+        const getAllData = await api.get(
+          `https://to-do-app-production-faef.up.railway.app/getAllData?id=${props?.["dbId"]}`
+        );
         const getData = getAllData.data.result.rows.filter(
           ({ status }) => status === "Pending"
         );
@@ -111,13 +113,15 @@ const ToDoTable = (props) => {
 
   const updateData = async (getText) => {
     const response = await api.put(
-      `/updateData?dbId=${props.dbId}&description=${getText}`
+      `https://to-do-app-production-faef.up.railway.app/updateData?dbId=${props.dbId}&description=${getText}`
     );
     if (response.data.Status_Cd === 1) {
       dispatch(showSnackbar(true, "success", "Data updated Successfully"));
     } else dispatch(showSnackbar(true, "error", "Data not updated"));
 
-    const getAllData = await api.get(`/getAllData?id=${props?.["dbId"]}`);
+    const getAllData = await api.get(
+      `https://to-do-app-production-faef.up.railway.app/getAllData?id=${props?.["dbId"]}`
+    );
     const getData = getAllData.data.result.rows.filter(
       ({ status }) => status === "Pending"
     );
