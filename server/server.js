@@ -106,7 +106,7 @@ app.post("/addUser1", (req, res) => {
   });
 });
 
-app.post("/descriptionData", (req, res) => {
+app.post("/descriptionData1", (req, res) => {
   try {
     const { dbId, workDescription, groceryDescription, officeDescription } =
       req.body;
@@ -137,7 +137,7 @@ app.post("/descriptionData", (req, res) => {
 });
 
 // Add data into table API
-app.post("/descriptionData1", (req, res) => {
+app.post("/descriptionData", (req, res) => {
   const { workDescription } = req.body["workDescription"];
   const groceryDescription = req.body["groceryDescription"];
   const officeDescription = req.body["officeDescription"];
