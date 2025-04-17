@@ -106,8 +106,38 @@ app.post("/addUser1", (req, res) => {
   });
 });
 
+app.post("/descriptionData", async (req, res) => {
+  try {
+    const { dbId, workDescription, groceryDescription, officeDescription } =
+      req.body;
+
+    let description = "";
+    let type = "";
+
+    if (workDescription) {
+      description = workDescription;
+      type = "WK";
+    } else if (groceryDescription) {
+      description = groceryDescription;
+      type = "GY";
+    } else if (officeDescription) {
+      description = officeDescription;
+      type = "OFC";
+    } else {
+      return res.send({ Status_Cd: 0, message: "No valid description found" });
+    }
+
+    const insertQuery = `INSERT INTO all_data(user_id, description, type, status) VALUES($1, $2, $3, $4)`;
+    await pool.query(insertQuery, [dbId, description, type, "Pending"]);
+
+    res.send({ Status_Cd: 1 });
+  } catch (error) {
+    res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
+  }
+});
+
 // Add data into table API
-app.post("/descriptionData", (req, res) => {
+app.post("/descriptionData1", (req, res) => {
   const { workDescription } = req.body["workDescription"];
   const groceryDescription = req.body["groceryDescription"];
   const officeDescription = req.body["officeDescription"];
