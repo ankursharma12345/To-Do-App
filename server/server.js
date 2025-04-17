@@ -106,7 +106,7 @@ app.post("/addUser1", (req, res) => {
   });
 });
 
-app.post("/descriptionData", async (req, res) => {
+app.post("/descriptionData", (req, res) => {
   try {
     const { dbId, workDescription, groceryDescription, officeDescription } =
       req.body;
@@ -128,7 +128,7 @@ app.post("/descriptionData", async (req, res) => {
     }
 
     const insertQuery = `INSERT INTO all_data(user_id, description, type, status) VALUES($1, $2, $3, $4)`;
-    await pool.query(insertQuery, [dbId, description, type, "Pending"]);
+    pool.query(insertQuery, [dbId, description, type, "Pending"]);
 
     res.send({ Status_Cd: 1 });
   } catch (error) {
