@@ -77,7 +77,6 @@ app.post("/addUser", async (req, res) => {
     await pool.query(insertDataIntoTbl, [email, password]);
     res.send({ Status_Cd: 1, email, password });
   } catch (e) {
-    console.log(e);
     res.status(500).send({ Status_Cd: 0, message: "Error inserting data" });
   }
 });
